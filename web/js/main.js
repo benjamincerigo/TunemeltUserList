@@ -1,24 +1,9 @@
-function sayHelloFromSilex() {
-    $.ajax({
-        type: 'GET',
-        url: './api/',
-        
-        success: function( data){
-          console.log('success in the silex' + data);
-            //$('#btnDelete').show();
-            //renderDetails(data);
-        },
-        error: function(e, textStatus, errorThrown){
-          console.log(textStatus, errorThrown);
 
-        }
-    });
-}
 
 sayHelloFromSilex();
 
 var MessageModel = Backbone.Model.extend({ 
-urlRoot: './api/',
+urlRoot: './api/user/',
     defaults: {
         message: "Hello"
     }

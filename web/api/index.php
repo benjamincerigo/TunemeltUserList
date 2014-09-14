@@ -2,21 +2,14 @@
 
 
 require('../../vendor/autoload.php');
+require('fakeDataBase.inc');
 
 $app = new Silex\Application();
 $app['debug'] = true;
 
-//Array
-$blogPosts = array(
-    1 => array(
-        'date'      => '2011-03-29',
-        'author'    => 'igorw',
-        'title'     => 'Using Silex',
-        'body'      => '...',
-    ),
-);
 
- /*  
+
+  
 // Register the monolog logging service
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
   'monolog.logfile' => 'php://stderr',
@@ -24,19 +17,21 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 
 // Our web handlers
 
-$app->get('/', function() use($app, $blogPosts) {
+$app->get('/user/', function() use($app, $users) {
   $app['monolog']->addDebug('logging output.');
-
-    $output = '';
-    foreach ($blogPosts as $post) {
-        $output .= $post['title'];
-        $output .= '<br />';
-        //$output .= $post['body'];
+  if (!isset($users['User1'])) {
+        return $users;
     }
 
-    return $output;
-});*/
-$app->get('/', function() use ($app){
+    
+    $user = $users['User1'];
+   
+    $userinfo = json_encode($user);
+    
+
+    return $userinfo;
+});
+$app->get('/hellojson', function() use ($app){
     $output = '{"message": "Hello World From Silex"}';
     return $output;
 });
