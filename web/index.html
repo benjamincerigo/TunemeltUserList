@@ -32,12 +32,12 @@
 </div> 
 <!-- Templates -->
 
-<script type="text/template" id='tpl_userdetial'>
-<div class='contact-detail'>
-	<h2 class ='contact-title'><%= name %></h2>
+<script type="text/template" id='tpl_userdetail'>
+<div class='user-detail'>
+	<h2 class ='user-title'><%= name %></h2>
 	<div>
 		<% for(key in obj){  %>
-		<div class='contact-item'>	
+		<div class='user-item'>	
 				<span><%= key %>:</span>
 				<span><%=obj[key] %></span>
 		<div>
@@ -48,7 +48,7 @@
 
 <script type="text/template" id='tpl_userlist'>
 <div class='contact-list'>
-	<a href='#contact/<%= name %>'>
+	<a href='#<%= id %>'>
 		<img></img>
 		<div>
 			<h3><%= name %></h3>

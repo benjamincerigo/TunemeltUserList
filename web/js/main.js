@@ -1,3 +1,17 @@
+function ajaxGo(){
+  $.ajax({
+    type: 'GET',
+      url: './api/users',
+      success: function(data){
+        //console.log(data);
+      }
+
+    });
+}
+ajaxGo();
+
+
+
 
 var App = {
   Models: {},
@@ -29,12 +43,8 @@ App.Collections.UserCollection = Backbone.Collection.extend({
       initialize: function(){
         console.log('started to Collection');
       }, 
-      fetch: function(){
-        console.log('collection reset');
-      },
-      change: function(){
-        console.log('collection change');
-      }
+      
+      
     
     });
 
@@ -44,19 +54,21 @@ App.Collections.UserCollection = Backbone.Collection.extend({
 App.Views.UserDetailView = Backbone.View.extend({
     el: $("#page"),
 
-    model: App.Models.UserModel,
+    
  
   
   initialize: function(){
-    this.model = new App.Models.UserModel();
-    this.model.fetch();
+    //this.model = new App.Models.UserModel();
+    //this.model.fetch();
     
 
   },
 
     render: function(){
+      $(this.el).empty();
+      console.log(this.model.toJSON());
       var atemplate = _.template($('#tpl_userdetail').html());
-      $(this.el).html(template(this.model.toJSON()));
+      $(this.el).html(atemplate(this.model.toJSON()));
 
     }
 });
@@ -68,17 +80,18 @@ App.Views.UserListView = Backbone.View.extend({
     
     model: App.Models.UserModel,
     initialize: function(){
-      _.bindAll(this, 'render', 'on_click');
+      _.bindAll(this, 'render');
       this.model.bind('change', this.render);
     },
     
     
 
     render: function(){
+     
      var atemplate = _.template($('#tpl_userlist').html());
-      $(this.el).append(atemplate(this.model.toJSON()));
+      $(this.el).html(atemplate(this.model.toJSON()));
       return this;
-    },
+    }
 
   });
 
@@ -100,17 +113,19 @@ App.Views.UserCollectionView = Backbone.View.extend({
 
     },
 
-    addOne: function(contactModel){
-
-      var userlistview = new App.Views.UserListView({model: App.Models.UserModel});
+    addOne: function(userModel){
       
-     $(this.el).append(userlistview.render().el);
+      var userlistview = new App.Views.UserListView({model: userModel});
+      var rendered = userlistview.render().el;
+      console.log(rendered);
+     $('#page').append(rendered);
+
     }, 
 
     render: function(){
       
       var atemplate = _.template($('#tpl_usercollection').html());
-      $(this.el).html(atemplate);
+      
       this.model.forEach(this.addOne, this);
     }
 
@@ -122,27 +137,33 @@ App.Views.UserCollectionView = Backbone.View.extend({
 App.Router = Backbone.Router.extend({
     routes: {
       // Define some URL routes
-     "users/p:name": "show", 
+      
       // Default
-      '*actions': 'showUserList'
+      "": 'showUserList',
+      "*name": "show",
     },
     initialize: function(){
 
 
     },
-    show: function(name){
-      var user = new App.Models.User({name: name});
-      var user_view = new App.Views.UserDetailView({el: $('#content'), model: user});
-      user.fetch();
+    show: function(id){
+      console.log(id);
+      var user = App.Collections.user_collection.get(id);
+      console.log(user);
+      var user_view = new App.Views.UserDetailView({el: $('#page'), model: user});
+      user_view.render();
     },
 
     showUserList: function(){
+      $('#page').empty();
+      App.Collections.user_collection = new App.Collections.UserCollection();
       
-      var user_collection = new App.Collections.UserCollection();
+      var user_collection_view = new App.Views.UserCollectionView({el: $('#page'), model: App.Collections.user_collection });
+      App.Collections.user_collection.fetch({success: function(collection, response){
+        //console.log(collection + response);
+      }
+    });
       
-      var user_collection_view = new App.Views.UserCollectionView({el: $('#page'), model: user_collection });
-      user_collection.fetch({reset: true});
-      console.log(user_collection);
     }
 
 
@@ -151,6 +172,8 @@ App.Router = Backbone.Router.extend({
   App.app = new App.Router();
 
 Backbone.history.start();
+
+
 /*
 var MessageView = Backbone.View.extend({
  
