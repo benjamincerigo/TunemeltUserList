@@ -12,25 +12,31 @@ $app['debug'] = true;
   
 // Register the monolog logging service
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
-  'monolog.logfile' => 'php://stderr',
+  'monolog.logfile' => __DIR__.'/development.log',
 ));
 
 // Our web handlers
 
-$app->get('/user/', function() use($app, $users) {
-  $app['monolog']->addDebug('logging output.');
-  if (!isset($users['User1'])) {
-        return $users;
+$app->get('/users', function() use($app, $users) {
+  
+  
+    
+    
+    $arrayOfUsers = Array();
+    foreach($users as $name => $array){
+      $fullarray= array_push($array, $name);
+      $arrayOfUsers = array_push($arrayOfUsers, (json_encode($fullarray));
+
     }
 
-    
-    $user = $users['User1'];
-   
-    $userinfo = json_encode($user);
+   $app['monolog']->addDebug(sizeof($arrayOfUsers));
+    $app['monolog']->addInfo($arrayOfUsers);
+    $app['monolog']->addInfo("a new it");
     
 
-    return $userinfo;
+    return '[{"name": "name1},{"name": "name1}]';
 });
+
 $app->get('/hellojson', function() use ($app){
     $output = '{"message": "Hello World From Silex"}';
     return $output;

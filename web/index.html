@@ -30,11 +30,46 @@
   </div>
 
 </div> 
+<!-- Templates -->
+
+<script type="text/template" id='tpl_userdetial'>
+<div class='contact-detail'>
+	<h2 class ='contact-title'><%= name %></h2>
+	<div>
+		<% for(key in obj){  %>
+		<div class='contact-item'>	
+				<span><%= key %>:</span>
+				<span><%=obj[key] %></span>
+		<div>
+		<% } %>
+	<div>
+</div>
+</script>
+
+<script type="text/template" id='tpl_userlist'>
+<div class='contact-list'>
+	<a href='#contact/<%= name %>'>
+		<img></img>
+		<div>
+			<h3><%= name %></h3>
+			<span><%=city %></span>
+			<span><%=venue %></span>
+		</div>
+
+	</a>
+</div> 
+</script>
+
+<script type="text/template" id='tpl_usercollection'>
+	<div id='contactlist-container'></div>
+</script>
+
+<!-- JavaScript -->
 <script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/underscore.js"></script>
-	<script src="js/backbone.js"></script>
-	
-	<script src="js/main.js"></script>
+	<script src="./js/underscore.js"></script>
+	<script src="./js/backbone.js"></script>
+	<script type="text/javascript" src="./js/backbone-relational.js"></script>
+	<script src="./js/main.js"></script>
 
 </body>
 </html>
