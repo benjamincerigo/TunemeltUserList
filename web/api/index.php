@@ -1,13 +1,13 @@
 <?php
-echo '{"message":"hello From PHP"}';
 
-/*require('../../vendor/autoload.php');
+
+require('../../vendor/autoload.php');
 
 $app = new Silex\Application();
 $app['debug'] = true;
 
 //Array
-/*$blogPosts = array(
+$blogPosts = array(
     1 => array(
         'date'      => '2011-03-29',
         'author'    => 'igorw',
@@ -16,7 +16,7 @@ $app['debug'] = true;
     ),
 );
 
-   
+ /*  
 // Register the monolog logging service
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
   'monolog.logfile' => 'php://stderr',
@@ -35,12 +35,12 @@ $app->get('/', function() use($app, $blogPosts) {
     }
 
     return $output;
-});
-$app->get('/hello', function(){
-    $output = "Hello World";
+});*/
+$app->get('/', function() use ($app){
+    $output = '{"message": "Hello World From Silex"}';
     return $output;
-})
+});
 
 $app->run();
-*/
+
 ?>

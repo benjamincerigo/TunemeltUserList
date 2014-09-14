@@ -1,7 +1,24 @@
-console.log('hello');
+function sayHelloFromSilex() {
+    $.ajax({
+        type: 'GET',
+        url: './api/',
+        
+        success: function( data){
+          console.log('success in the silex' + data);
+            //$('#btnDelete').show();
+            //renderDetails(data);
+        },
+        error: function(e, textStatus, errorThrown){
+          console.log(textStatus, errorThrown);
+
+        }
+    });
+}
+
+sayHelloFromSilex();
 
 var MessageModel = Backbone.Model.extend({ 
-urlRoot: './api/index.php',
+urlRoot: './api/',
     defaults: {
         message: "Hello"
     }
@@ -42,9 +59,8 @@ var MessageRouter = Backbone.Router.extend({
     },
 
     fetchSuccess: function(m, response, options){
-      
+      console.log(m.attributes);
       $(this.el).html(this.view.render().el);
-
 
     },
     fetchError: function(m, response, options){
