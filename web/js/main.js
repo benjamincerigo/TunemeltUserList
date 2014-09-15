@@ -68,7 +68,7 @@ App.Collections.UserCollection = Backbone.Collection.extend({
        model: App.Models.UserModel,
       url: './api/users',
       initialize: function(){
-        console.log('started to Collection');
+        
       }, 
 
 
@@ -95,7 +95,7 @@ App.Views.UserDetailView = Backbone.View.extend({
 
     render: function(){
       $(this.el).empty();
-      console.log(this.model.toJSON());
+      
       var atemplate = _.template($('#tpl_userdetail').html());
       $(this.el).html(atemplate(this.model.toJSON()));
 
@@ -116,7 +116,7 @@ App.Views.UserListView = Backbone.View.extend({
     
 
     render: function(){
-     console.log($('#tpl_userlist'));
+     
      var atemplate = _.template($('#tpl_userlist').html());
      
       this.$el.html(atemplate(this.model.toJSON()));
@@ -137,6 +137,7 @@ App.Views.UserCollectionView = Backbone.View.extend({
       this.model.bind('change', this.render);
       this.model.bind('add', this.addOne);
       $(document).scroll(this.loadMore);
+
        
       
       //console.log(this.collection.toJSON());   
@@ -158,22 +159,37 @@ App.Views.UserCollectionView = Backbone.View.extend({
       
       this.model.forEach(this.addOne, this);
     },
+    addMany: function(arrays){
+      arrays.forEach(this.addOne, this)
+    },
 
     loadMore: function(){
+      if(App.scrollAddHelp){
       var difference = $(document).height()-$( window ).height();
-      console.log('diference: '+ difference);
+      
+
 
     if ($(document).scrollTop() == (difference-1)){
-       console.log('reached bottom');
+       
        var user_collection = new App.Collections.UserCollection();
        var user_collection_view = new App.Views.UserCollectionView({model: user_collection });
        //user_collection.fetch();
        user_collection.fetch({success: function(m){
-          App.Collections.user_collection.add(m.models);
-       }
+        
+        
+          App.Views.user_collection_view.addMany(m.models, this);
+        
+          
+          
+          
+         
+        }
        });
+       };
 
-    }
+     };
+
+
   },
 
 
@@ -198,8 +214,9 @@ App.Router = Backbone.Router.extend({
 
     },
     show: function(id){
+      App.scrollAddHelp = false;
       if(typeof(App.Collections.user_collection) == 'undefined'){
-      console.log(id);
+     // console.log(id);
       var user = new App.Models.UserModel({id:id});
       user.fetch();
     }else{
@@ -212,12 +229,13 @@ App.Router = Backbone.Router.extend({
     },
 
     showUserList: function(){
+      App.scrollAddHelp = true;
       $('#page').empty();
       App.Collections.user_collection = new App.Collections.UserCollection();
       
-      var user_collection_view = new App.Views.UserCollectionView({model: App.Collections.user_collection });
+      App.Views.user_collection_view = new App.Views.UserCollectionView({model: App.Collections.user_collection });
       App.Collections.user_collection.fetch({success: function(collection, response){
-        //console.log(collection + response);
+        
       }
     });
       
