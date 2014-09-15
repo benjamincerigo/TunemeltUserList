@@ -139,7 +139,7 @@ App.Views.UserCollectionView = Backbone.View.extend({
       this.model.bind('change', this.render);
       this.model.bind('add', this.addOne);
       
-      $(document).scroll(this.loadMore);
+      $(document).scroll(this.scrollTest);
 
        
       
@@ -170,7 +170,7 @@ App.Views.UserCollectionView = Backbone.View.extend({
     },
     
 
-    loadMore: function(){
+    scrollTest: function(){
       if(App.scrollAddHelp){
           
         var difference = $(document).height()-$( window ).height();
@@ -178,24 +178,31 @@ App.Views.UserCollectionView = Backbone.View.extend({
         
         if ($(document).scrollTop() >= (difference-3)){
           
-         var jsonToAdd = [];
+         App.Views.user_collection_view.loadMore();
+         
+       };
+     }
+   },
+
+   loadMore: function(){
+    var jsonToAdd = [];
            for(i = App.offset; i < (App.offset + 3); i++ ){
             jsonToAdd.push( {'id': i});
            }
          App.offset += 3;
         
          App.Collections.user_collection.add(jsonToAdd);
-         
-       };
-     }
+         this.funcTestLoad();
    },
 
    funcTestLoad: function(){
-    
-    if($('#page').height() < ($( window ).height() + 100)){
-    
+    console.log('before:'+ $('#page').height()+ $( window ).height());
+
+    if($('#page').height() < ($( window ).height())){
+   
       this.loadMore();
-    }
+       console.log('after:'+ $('#page').height()+ $( window ).height());
+    };
    }
 
 
