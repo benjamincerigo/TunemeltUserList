@@ -10,7 +10,10 @@ function ajaxGo(){
 }
 ajaxGo();
 
-
+$( document ).ajaxError(function(e, j, po, str) {
+   
+  alert( 'Sorry there was an Error' + str);
+});
 
 
 var App = {

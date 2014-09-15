@@ -140,24 +140,10 @@ $app->get('/users', function() use($app, $users) {
 });
 
 $app->get('/users/{name}', function(Silex\Application $app, $name) use($app, $users) {
-  //$app['monolog']->addInfo("Dynamic request");
-  
-    
-    
-    /*$arrayOfUsers = array();
-    /foreach( as $name => $myarray){
-      $app['monolog']->addDebug($name);
-      
-      
-      
-      $arrayOfUsers[] = $myarray;
-
+ 
+    if (!isset($users[$name])) {
+        $app->abort(404, "Post $id does not exist.");
     }
-
-   
-    
-    //$app['monolog']->addInfo(sizeof($arrayOfUsers));
-    //$output = array_values($arrayOfUsers);*/
 
 
     return json_encode($users[$name]);
@@ -168,6 +154,14 @@ $app->get('/hellojson', function() use ($app){
   
     $output = '{"message": "Hello World From Silex"}';
     return $output;
+});
+
+use Symfony\Component\HttpFoundation\Response;
+
+$app->error(function (\Exception $e, $code) {
+    
+
+    return new Response($e);
 });
 
 $app->run();
