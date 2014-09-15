@@ -38,7 +38,7 @@
 	<img src='<%= img %>'></img>
 	<h2 class ='user-title'><%= name %></h2>
 	<div>
-		<% for(key in obj){  console.log(key);if(!(key == 'name' || key == 'id' || key == 'img')){ console.log(key);%>
+		<% for(key in obj){ if(!(key == 'name' || key == 'id' || key == 'img')){ %>
 		<div class='user-item'>	
 				<span><%= key %>:</span>
 				<span><%=obj[key] %></span>

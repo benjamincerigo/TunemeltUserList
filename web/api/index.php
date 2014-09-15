@@ -140,7 +140,7 @@ $app->get('/users', function() use($app, $users) {
 });
 
 $app->get('/users/{name}', function(Silex\Application $app, $name) use($app, $users) {
-  $app['monolog']->addInfo("Dynamic request");
+  //$app['monolog']->addInfo("Dynamic request");
   
     
     

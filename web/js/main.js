@@ -90,7 +90,7 @@ App.Views.UserListView = Backbone.View.extend({
     render: function(){
      console.log($('#tpl_userlist'));
      var atemplate = _.template($('#tpl_userlist').html());
-     console.log('hello');
+     
       this.$el.html(atemplate(this.model.toJSON()));
       return this;
     }
@@ -149,11 +149,17 @@ App.Router = Backbone.Router.extend({
 
     },
     show: function(id){
+      if(typeof(App.Collections.user_collection) == 'undefined'){
       console.log(id);
+      var user = new App.Models.UserModel({id:id});
+      user.fetch();
+    }else{
       var user = App.Collections.user_collection.get(id);
-      console.log(user);
+    }
+      //console.log(user);
       var user_view = new App.Views.UserDetailView({el: $('#page'), model: user});
       user_view.render();
+
     },
 
     showUserList: function(){
