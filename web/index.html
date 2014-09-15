@@ -13,7 +13,8 @@
 
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 
-	<link rel="stylesheet" href="css/styles.css">
+	<link href='http://fonts.googleapis.com/css?family=Muli:300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/style.css">
 	
 
 	
@@ -36,28 +37,46 @@
 <div class='user-detail'>
 	<h2 class ='user-title'><%= name %></h2>
 	<div>
-		<% for(key in obj){  %>
+		<% for(key in obj){  console.log(key);if(key != 'name' || key != 'id' || key != 'img'){%>
 		<div class='user-item'>	
 				<span><%= key %>:</span>
 				<span><%=obj[key] %></span>
 		<div>
-		<% } %>
+		<% }} %>
 	<div>
 </div>
 </script>
 
 <script type="text/template" id='tpl_userlist'>
-<div class='contact-list'>
+
+	
 	<a href='#<%= id %>'>
-		<img></img>
+	<div>
+		
+		<img src='<%= img %>'></img>
+
+		
 		<div>
-			<h3><%= name %></h3>
-			<span><%=city %></span>
-			<span><%=venue %></span>
+			<table class='user-item-table'>
+				<tr>
+					<td>
+						<span><%= name %></span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span><%=city %></span> &ndash;
+						<span><%=venue %></span>
+					</td>
+				</tr>
+			</table>
+			
 		</div>
+	</div>
+
 
 	</a>
-</div> 
+
 </script>
 
 <script type="text/template" id='tpl_usercollection'>

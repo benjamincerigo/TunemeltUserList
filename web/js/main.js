@@ -27,6 +27,7 @@ App.Models.UserModel = Backbone.Model.extend({
     
   defaults: {
             name: 'Benjamin Cerigo',
+            img: './img/defaultUserImage.png',
             email: 'email@someplace.nl',
             city: 'Amsterdam',
             venue: 'Paradiso',
@@ -77,7 +78,7 @@ App.Views.UserDetailView = Backbone.View.extend({
 
 App.Views.UserListView = Backbone.View.extend({
     
-    
+    className: 'user-list-item',
     model: App.Models.UserModel,
     initialize: function(){
       _.bindAll(this, 'render');
@@ -87,9 +88,10 @@ App.Views.UserListView = Backbone.View.extend({
     
 
     render: function(){
-     
+     console.log($('#tpl_userlist'));
      var atemplate = _.template($('#tpl_userlist').html());
-      $(this.el).html(atemplate(this.model.toJSON()));
+     console.log('hello');
+      this.$el.html(atemplate(this.model.toJSON()));
       return this;
     }
 
@@ -98,9 +100,9 @@ App.Views.UserListView = Backbone.View.extend({
 //View that is the collection of UserListViews
 
 App.Views.UserCollectionView = Backbone.View.extend({
-    el: $('#page'),
+    
    
-   
+   className: 'usercollection',
     initialize: function(){
       _.bindAll(this, 'render');
       this.model.bind('reset', this.render);
@@ -117,7 +119,7 @@ App.Views.UserCollectionView = Backbone.View.extend({
       
       var userlistview = new App.Views.UserListView({model: userModel});
       var rendered = userlistview.render().el;
-      console.log(rendered);
+      //console.log(rendered);
      $('#page').append(rendered);
 
     }, 
@@ -158,7 +160,7 @@ App.Router = Backbone.Router.extend({
       $('#page').empty();
       App.Collections.user_collection = new App.Collections.UserCollection();
       
-      var user_collection_view = new App.Views.UserCollectionView({el: $('#page'), model: App.Collections.user_collection });
+      var user_collection_view = new App.Views.UserCollectionView({model: App.Collections.user_collection });
       App.Collections.user_collection.fetch({success: function(collection, response){
         //console.log(collection + response);
       }
