@@ -42,6 +42,7 @@ var App = {
   Models: {},
   Collections: {},
   Views: {},
+  offset: 0
  
 }
 
@@ -170,8 +171,15 @@ App.Views.UserCollectionView = Backbone.View.extend({
 
       
     if ($(document).scrollTop() == (difference-1)){
-       
-       var user_collection = new App.Collections.UserCollection();
+
+       var jsonToAdd = [];
+       for(i = App.offset; i < (App.offset + 3); i++ ){
+        jsonToAdd.push( {'id': i});
+       }
+       App.offset += 3;
+       console.log(jsonToAdd);
+       App.Collections.user_collection.add(jsonToAdd);
+       /*var user_collection = new App.Collections.UserCollection({});
        var user_collection_view = new App.Views.UserCollectionView({model: user_collection });
        //user_collection.fetch();
        user_collection.fetch({success: function(m){
@@ -185,9 +193,10 @@ App.Views.UserCollectionView = Backbone.View.extend({
          
         }
        });
-       };
+       };*/
 
      };
+   }
 
 
   },

@@ -102,6 +102,8 @@ $users = array(
     ),
 
 );
+
+$offset = 0;
 $app = new Silex\Application();
 $app['debug'] = true;
 
@@ -140,13 +142,16 @@ $app->get('/users', function() use($app, $users) {
 });
 
 $app->get('/users/{name}', function(Silex\Application $app, $name) use($app, $users) {
- 
+    
+    if($name)
     if (!isset($users[$name])) {
         $app->abort(404, "Post $id does not exist.");
+    }else{
+      $output = json_encode($users[$name]);
     }
 
 
-    return json_encode($users[$name]);
+    return $output;
 });
 
 
