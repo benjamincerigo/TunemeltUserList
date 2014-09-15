@@ -42,7 +42,8 @@ var App = {
   Models: {},
   Collections: {},
   Views: {},
-  offset: 0
+  offset: 0,
+  limit: 100,
  
 }
 
@@ -137,12 +138,16 @@ App.Views.UserCollectionView = Backbone.View.extend({
       this.model.bind('reset', this.render);
       this.model.bind('change', this.render);
       this.model.bind('add', this.addOne);
+      
       $(document).scroll(this.loadMore);
 
        
       
       //console.log(this.collection.toJSON());   
 
+    },
+    events: {
+      'testLoad' : 'funcTestLoad'
     },
 
     addOne: function(userModel){
@@ -155,51 +160,46 @@ App.Views.UserCollectionView = Backbone.View.extend({
     }, 
 
     render: function(){
-      
+       console.log('render');
       var atemplate = _.template($('#tpl_usercollection').html());
       
       this.model.forEach(this.addOne, this);
+      //console.log($(document).height());
+
+      
     },
-    addMany: function(arrays){
-      arrays.forEach(this.addOne, this)
-    },
+    
 
     loadMore: function(){
       if(App.scrollAddHelp){
-      var difference = $(document).height()-$( window ).height();
-      
-
-      
-    if ($(document).scrollTop() == (difference-1)){
-
-       var jsonToAdd = [];
-       for(i = App.offset; i < (App.offset + 3); i++ ){
-        jsonToAdd.push( {'id': i});
-       }
-       App.offset += 3;
-       console.log(jsonToAdd);
-       App.Collections.user_collection.add(jsonToAdd);
-       /*var user_collection = new App.Collections.UserCollection({});
-       var user_collection_view = new App.Views.UserCollectionView({model: user_collection });
-       //user_collection.fetch();
-       user_collection.fetch({success: function(m){
-        
-        
-          App.Views.user_collection_view.addMany(m.models, this);
-        
           
+        var difference = $(document).height()-$( window ).height();
+       
+        
+        if ($(document).scrollTop() >= (difference-3)){
           
-          
+         var jsonToAdd = [];
+           for(i = App.offset; i < (App.offset + 3); i++ ){
+            jsonToAdd.push( {'id': i});
+           }
+         App.offset += 3;
+        
+         App.Collections.user_collection.add(jsonToAdd);
          
-        }
-       });
-       };*/
+       };
+     }
+   },
 
-     };
+   funcTestLoad: function(){
+    
+    if($('#page').height() < $( window ).height()){
+    
+      this.loadMore();
+    }
    }
 
 
-  },
+  
 
 
 
@@ -218,7 +218,7 @@ App.Router = Backbone.Router.extend({
       "*name": "show",
     },
     initialize: function(){
-
+       
 
 
     },
@@ -245,10 +245,10 @@ App.Router = Backbone.Router.extend({
       App.Views.user_collection_view = new App.Views.UserCollectionView({model: App.Collections.user_collection });
       App.Collections.user_collection.fetch({success: function(collection, response){
         
-      }
-    });
-      
+        App.Views.user_collection_view.funcTestLoad();
+      }});
     }
+      
 
 
   });
