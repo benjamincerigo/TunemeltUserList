@@ -35,14 +35,15 @@
 
 <script type="text/template" id='tpl_userdetail'>
 <div class='user-detail'>
+	<img src='<%= img %>'></img>
 	<h2 class ='user-title'><%= name %></h2>
 	<div>
-		<% for(key in obj){  console.log(key);if(key != 'name' || key != 'id' || key != 'img'){%>
+		<% for(key in obj){  console.log(key);if(!(key == 'name' || key == 'id' || key == 'img')){ console.log(key);%>
 		<div class='user-item'>	
 				<span><%= key %>:</span>
 				<span><%=obj[key] %></span>
 		<div>
-		<% }} %>
+		<% };} %>
 	<div>
 </div>
 </script>
