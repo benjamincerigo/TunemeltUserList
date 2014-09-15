@@ -2,7 +2,6 @@
 
 
 require('../../vendor/autoload.php');
-//require('fakeDataBase.inc');
 $users = array(
     'User1' => array(
         'id'      => 'User1',
