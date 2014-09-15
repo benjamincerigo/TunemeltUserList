@@ -168,7 +168,7 @@ App.Views.UserCollectionView = Backbone.View.extend({
       var difference = $(document).height()-$( window ).height();
       
 
-
+      
     if ($(document).scrollTop() == (difference-1)){
        
        var user_collection = new App.Collections.UserCollection();
