@@ -192,7 +192,7 @@ App.Views.UserCollectionView = Backbone.View.extend({
 
    funcTestLoad: function(){
     
-    if($('#page').height() < $( window ).height()){
+    if($('#page').height() < ($( window ).height() + 100)){
     
       this.loadMore();
     }
