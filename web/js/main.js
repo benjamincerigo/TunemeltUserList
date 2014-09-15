@@ -1,3 +1,5 @@
+//Ajax test
+
 function ajaxGo(){
   $.ajax({
     type: 'GET',
@@ -10,34 +12,13 @@ function ajaxGo(){
 }
 ajaxGo();
 
-$( document ).ajaxError(function(e, j, po, str) {
-   
-  alert( 'Sorry there was an Error' + str);
-});
-/*$(document).scroll(function(){
-  
-   var difference = $(document).height()-$( window ).height();
-   console.log('diference: '+ difference);
-
-    if ($(document).scrollTop() == (difference-1)){
-       console.log('reached bottom');
-       var user_collection = new App.Collections.UserCollection();
-       var user_collection_view = new App.Views.UserCollectionView({model: user_collection });
-       //user_collection.fetch();
-       user_collection.fetch({success: function(m){
-          App.Collections.user_collection.add(m.models);
-       }
-       });
-
-       
-    }
-});*/
+//If ajax Error aller
 $( document ).ajaxError(function(e, j, po, str) {
    
   alert( 'Sorry there was an Error' + str);
 });
 
-
+// Set App object
 var App = {
   Models: {},
   Collections: {},
@@ -49,7 +30,7 @@ var App = {
 
 
 ///-------------------------------------------------------Models
-App.Models.DocumentModel = Backbone.Model.extend({});
+//User model
 App.Models.UserModel = Backbone.Model.extend({
     urlRoot: './api/users',
     
@@ -65,7 +46,7 @@ App.Models.UserModel = Backbone.Model.extend({
 });
 
 ///------------------------------------------------------Colections
-
+//User collection
 App.Collections.UserCollection = Backbone.Collection.extend({
        model: App.Models.UserModel,
       url: './api/users',
@@ -81,7 +62,7 @@ App.Collections.UserCollection = Backbone.Collection.extend({
 
 //------------------------------------------------------Views
 
-// View that stats that View of all the details of a User
+// View that starts that View of all the details of a User
 App.Views.UserDetailView = Backbone.View.extend({
     el: $("#page"),
 
@@ -229,6 +210,7 @@ App.Router = Backbone.Router.extend({
 
 
     },
+    //Show clicked user model
     show: function(id){
       App.scrollAddHelp = false;
       if(typeof(App.Collections.user_collection) == 'undefined'){
@@ -244,6 +226,7 @@ App.Router = Backbone.Router.extend({
 
     },
 
+    //show full user list
     showUserList: function(){
       App.scrollAddHelp = true;
       $('#page').empty();
@@ -260,59 +243,9 @@ App.Router = Backbone.Router.extend({
 
   });
   
-  App.app = new App.Router();
+//Run the app
+App.app = new App.Router();
 
+
+//The history
 Backbone.history.start();
-
-
-/*
-var MessageView = Backbone.View.extend({
- 
-    template: _.template('<div><%= message %></div>'),
- 
-    render:function () {
-       
-       
-        this.$el.html(this.template(this.model.toJSON()));
-        return this;
-    }
-});
-
-var MessageRouter = Backbone.Router.extend({
-  el: $('#page'),
-  initialize: function(){
-    _.bindAll(this, 'fetchSuccess');
-  }, 
-    routes:{
-        "*action": "displayMessage"
-    },
-    displayMessage: function() {
-      this.model = new MessageModel();
-
-
-       this.view = new MessageView({model:this.model});
-       
-       this.model.fetch({
-          success: this.fetchSuccess,
-          error: this.fetchError
-        });
-      
-           
-    },
-
-    fetchSuccess: function(m, response, options){
-      console.log(m.attributes);
-      $(this.el).html(this.view.render().el);
-
-    },
-    fetchError: function(m, response, options){
-       $(this.el).html("Error in Fetch");
-    }
-});
-
-
- 
-var messageRouter = new MessageRouter();
-Backbone.history.start();
-*/
-
