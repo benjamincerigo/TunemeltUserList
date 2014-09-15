@@ -2,6 +2,7 @@
 
 
 require('../../vendor/autoload.php');
+//Fake data base
 $users = array(
     'User1' => array(
         'id'      => 'User1',
@@ -102,7 +103,7 @@ $users = array(
 
 );
 
-$offset = 0;
+
 $app = new Silex\Application();
 $app['debug'] = true;
 
@@ -116,6 +117,8 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 
 // Our web handlers
 
+
+//Users gets all contaces form the $users array
 $app->get('/users', function() use($app, $users) {
   $app['monolog']->addInfo("ad1");
   
@@ -140,6 +143,8 @@ $app->get('/users', function() use($app, $users) {
     return json_encode($output);
 });
 
+
+//Find one user from the user array
 $app->get('/users/{name}', function(Silex\Application $app, $name) use($app, $users) {
     
     if($name)
@@ -153,13 +158,15 @@ $app->get('/users/{name}', function(Silex\Application $app, $name) use($app, $us
     return $output;
 });
 
-
+//Hello world.
 $app->get('/hellojson', function() use ($app){
   
     $output = '{"message": "Hello World From Silex"}';
     return $output;
 });
 
+
+//Exception handelling
 use Symfony\Component\HttpFoundation\Response;
 
 $app->error(function (\Exception $e, $code) {
